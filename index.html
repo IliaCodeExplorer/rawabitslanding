@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rawabits — Invoices, WhatsApp, and your books, connected</title>
+<meta name="description" content="We connect WhatsApp, your CRM, and your accounting system for trading and distribution companies in the UAE/GCC. Free 3-day audit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<!-- Cloudflare Web Analytics: auto-injected at the edge via "Automatic setup" for rawabits.com — no manual snippet needed here. -->
+<style>
+  :root{
+    --carbon-black:#000000;
+    --paper-white:#ffffff;
+    --warm-canvas:#e5e5e5;
+    --mist-gray:#f3f3f3;
+    --ash:#c6c6c6;
+    --smoke:#979797;
+    --slate:#444444;
+    --mint-chip:#d1ffca;
+    --voltage-yellow:#fff100;
+
+    --font-cond:'Barlow Condensed', ui-sans-serif, system-ui, sans-serif;
+    --font-body:'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{width:100%;}
+  body{
+    font-family:var(--font-body);
+    background:var(--warm-canvas);
+    color:var(--carbon-black);
+    line-height:1.25;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+
+  .wrap{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 24px;
+    text-align:center;
+  }
+
+  /* ===== NAV ===== */
+  header{ background:var(--warm-canvas); padding:24px 0; }
+  .nav-row{
+    max-width:1200px; margin:0 auto; padding:0 24px;
+    display:flex; align-items:center; justify-content:center; gap:16px;
+    position:relative; flex-wrap:wrap;
+  }
+  .logo{
+    font-family:var(--font-cond); font-weight:700; text-transform:uppercase;
+    font-size:1.6rem; letter-spacing:-0.02em;
+    position:absolute; left:24px; top:50%; transform:translateY(-50%);
+  }
+  .nav-pill{
+    background:var(--paper-white); border-radius:48px;
+    display:flex; align-items:center; justify-content:center; gap:28px;
+    padding:14px 32px;
+    margin:0 auto;
+  }
+  .nav-pill a{ font-size:0.95rem; font-weight:500; color:var(--slate); }
+  .nav-pill a:hover{ color:var(--carbon-black); }
+  .nav-cta{ position:absolute; right:24px; top:50%; transform:translateY(-50%); }
+  @media (max-width:900px){
+    .logo{ position:static; transform:none; }
+    .nav-cta{ position:static; transform:none; }
+    .nav-pill{ order:3; width:100%; }
+    .nav-row{ flex-direction:column; }
+  }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    font-family:var(--font-body); font-weight:500; font-size:0.95rem;
+    padding:14px 26px; border-radius:6px; cursor:pointer; border:none;
+    transition:transform .15s ease, opacity .15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-filled{ background:var(--carbon-black); color:var(--paper-white); }
+  .btn-filled:hover{ opacity:0.85; }
+  .btn-ghost{ background:transparent; border:1.5px solid var(--slate); color:var(--slate); }
+  .btn-ghost:hover{ border-color:var(--carbon-black); color:var(--carbon-black); }
+  .btn-ghost-light{ background:transparent; border:1.5px solid var(--paper-white); color:var(--paper-white); }
+
+  /* ===== TAGS / LABELS ===== */
+  .tag{
+    display:inline-block; background:var(--mint-chip); color:var(--carbon-black);
+    font-family:var(--font-mono); font-size:0.72rem; letter-spacing:-0.02em; text-transform:uppercase;
+    padding:8px 18px; border-radius:64px; margin-bottom:24px;
+  }
+  .section-label{
+    font-family:var(--font-mono); font-size:0.72rem; letter-spacing:-0.02em; text-transform:uppercase;
+    color:var(--smoke); margin-bottom:16px;
+  }
+
+  /* ===== TYPOGRAPHY ===== */
+  h1{
+    font-family:var(--font-cond); font-weight:700; text-transform:uppercase;
+    font-size:clamp(2.6rem, 6vw, 6.4rem);
+    line-height:0.92; letter-spacing:-0.03em;
+    max-width:960px; margin:0 auto 28px;
+  }
+  h2{
+    font-family:var(--font-body); font-weight:600; text-transform:uppercase;
+    font-size:clamp(1.6rem, 3.4vw, 2.6rem);
+    line-height:1.1; letter-spacing:-0.02em;
+    max-width:760px; margin:0 auto 40px;
+  }
+  h3{
+    font-family:var(--font-body); font-weight:600; text-transform:uppercase;
+    font-size:1.4rem; letter-spacing:-0.01em; margin-bottom:12px;
+  }
+  .sub{ font-size:1.15rem; color:var(--slate); max-width:620px; margin:0 auto 36px; }
+  p{ font-size:1rem; color:var(--slate); }
+
+  .section{ padding:80px 0; }
+
+  /* ===== HERO ===== */
+  .hero{ padding:96px 0 64px; text-align:center; }
+  .hero-ctas{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:20px; }
+  .hero-note{ font-family:var(--font-mono); font-size:0.78rem; color:var(--smoke); }
+
+  /* ===== DOME BAND ===== */
+  .dome-band{ background:var(--carbon-black); color:var(--paper-white); border-radius:64px 64px 0 0; padding:28px 0; }
+  .dome-band .wrap{
+    display:flex; flex-wrap:wrap; gap:12px 28px; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:0.82rem; letter-spacing:-0.02em; color:var(--mist-gray);
+  }
+  .dome-band .dot{ opacity:0.4; }
+
+  /* ===== PAIN CARDS ===== */
+  .pain-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; max-width:820px; margin:0 auto; }
+  @media (max-width:700px){ .pain-grid{ grid-template-columns:1fr; } }
+  .card{ background:var(--paper-white); border-radius:28px; padding:28px; text-align:left; }
+  .pain-grid .card{ font-size:0.98rem; color:var(--carbon-black); display:flex; align-items:center; text-align:center; justify-content:center; }
+
+  /* ===== GRIDS ===== */
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; text-align:left; }
+  @media (max-width:900px){ .grid-3{ grid-template-columns:1fr; } }
+  .pillar-card{ display:flex; flex-direction:column; gap:14px; text-align:center; align-items:center; }
+  .pillar-card h3{ font-size:1.5rem; }
+  .pillar-card p{ font-size:0.96rem; }
+  .pillar-note{
+    font-family:var(--font-mono); font-size:0.75rem; color:var(--carbon-black);
+    background:var(--mist-gray); border-radius:14px; padding:12px 16px; margin-top:auto; width:100%;
+  }
+
+  /* ===== BADGES ===== */
+  .badge-row{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+  .badge{ background:var(--mint-chip); color:var(--carbon-black); font-weight:500; font-size:0.9rem; padding:10px 22px; border-radius:64px; }
+
+  /* ===== PROCESS ===== */
+  .process-card{ text-align:center; align-items:center; }
+  .step-num{
+    font-family:var(--font-cond); font-weight:700; font-size:3.2rem; line-height:1;
+    color:var(--paper-white); -webkit-text-stroke:2px var(--carbon-black); margin-bottom:8px;
+  }
+
+  /* ===== INVERTED ABOUT ===== */
+  .inverted{ background:var(--carbon-black); color:var(--paper-white); border-radius:32px; padding:56px 40px; max-width:820px; margin:0 auto; }
+  .inverted h2{ color:var(--paper-white); }
+  .inverted p{ color:var(--smoke); font-size:1.05rem; max-width:640px; margin:0 auto; }
+
+  /* ===== CTA DOME ===== */
+  .cta-section{ background:var(--carbon-black); color:var(--paper-white); border-radius:64px 64px 0 0; padding:88px 0 72px; text-align:center; }
+  .cta-section h2{ color:var(--paper-white); }
+  .cta-section p{ color:var(--mist-gray); max-width:560px; margin:0 auto 32px; }
+  .cta-actions{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  /* ===== FOOTER ===== */
+  footer{ background:var(--carbon-black); color:var(--smoke); padding:32px 0; }
+  footer .wrap{
+    display:flex; justify-content:center; flex-direction:column; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:0.75rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-row">
+    <div class="logo">Rawabits</div>
+    <nav class="nav-pill">
+      <a href="#what-we-do">What We Do</a>
+      <a href="#how-we-work">How We Work</a>
+      <a href="#about">About</a>
+    </nav>
+    <a href="#contact" class="btn btn-filled nav-cta">Free 3-Day Audit</a>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <span class="tag">For trading &amp; distribution companies in the GCC</span>
+  <h1>Invoices arrive in 15 formats from 15 countries. All of them get typed in by hand.</h1>
+  <p class="sub">Scans, photos, Arabic text, PDFs buried in email bodies — one person re-keys every line before it hits your books.</p>
+  <div class="hero-ctas">
+    <a href="https://wa.me/77713578058?text=Hi%20Rawabits%2C%20I%27d%20like%20a%20free%203-day%20audit" class="btn btn-filled" target="_blank" rel="noopener">Start on WhatsApp</a>
+    <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1qlUwPnrs5MENw-JposGAV4iRb5EdpQL9-kvzBGxhGBRzShvGHKx014YKRk2ibn3Uc6N1zJiHN?gv=true" class="btn btn-ghost" target="_blank" rel="noopener">Book a Call</a>
+  </div>
+  <div class="hero-note">READ-ONLY ACCESS · NO COMMITMENT · NO CHARGE</div>
+</section>
+
+<div class="dome-band">
+  <div class="wrap">
+    <span>UAE VAT &amp; Corporate Tax aware</span>
+    <span class="dot">•</span>
+    <span>E-Invoicing (PINT-AE) ready</span>
+    <span class="dot">•</span>
+    <span>Works with Odoo, Zoho, Tally, 1C</span>
+    <span class="dot">•</span>
+    <span>WhatsApp Business API</span>
+  </div>
+</div>
+
+<section class="section" id="what-we-do">
+  <div class="wrap">
+    <div class="section-label">The Problem</div>
+    <h2>What's Probably Happening Right Now</h2>
+    <div class="pain-grid">
+      <div class="card">Invoices arrive as PDFs, scans, and phone photos, in English and Arabic, sometimes inside the email text.</div>
+      <div class="card">Someone re-types every line into the accounting system by hand.</div>
+      <div class="card">Invoices occasionally get paid twice, and nobody notices until the bank statement doesn't match.</div>
+      <div class="card">Vendor records are messy — missing tax numbers, mismatched names — which becomes a real blocker once e-invoicing is mandatory.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">What We Do</div>
+    <h2>Three Things, Connected — Not Three Separate Projects</h2>
+    <div class="grid-3">
+      <div class="card pillar-card">
+        <span class="tag" style="margin-bottom:0;">01 · Sales</span>
+        <h3>Sales &amp; Communications</h3>
+        <p>Every WhatsApp line in one place, with a record of who answered and when. Every lead lands in your CRM automatically.</p>
+        <div class="pillar-note">Meta begins charging for business messages from Oct 2026.</div>
+      </div>
+      <div class="card pillar-card">
+        <span class="tag" style="margin-bottom:0;">02 · Accounting</span>
+        <h3>Accounts Payable Automation</h3>
+        <p>Invoices and receipts from WhatsApp and email are read automatically and matched to purchase orders — duplicate and near-duplicate invoices flagged before payment, not after.</p>
+        <div class="pillar-note">Manual entry is where duplicate payments and VAT-code errors hide.</div>
+      </div>
+      <div class="card pillar-card">
+        <span class="tag" style="margin-bottom:0;">03 · Compliance</span>
+        <h3>E-Invoicing Readiness</h3>
+        <p>Your vendor master data cleaned, validated, and matched to trade licenses — ready for accredited providers, not scrambled together last minute.</p>
+        <div class="pillar-note">ASP selection due 31 Mar 2027, mandatory from 1 Jul 2027.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">Works With What You Already Have</div>
+    <h2>We Don't Replace Your Systems. We Connect Them.</h2>
+    <div class="badge-row">
+      <span class="badge">Odoo</span>
+      <span class="badge">Zoho CRM</span>
+      <span class="badge">Zoho Books</span>
+      <span class="badge">Tally Prime</span>
+      <span class="badge">1C</span>
+      <span class="badge">QuickBooks</span>
+      <span class="badge">Xero</span>
+      <span class="badge">WhatsApp Business API</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how-we-work">
+  <div class="wrap">
+    <div class="section-label">How We Work</div>
+    <h2>One Audit. One Fixed Price. You Own What We Build.</h2>
+    <div class="grid-3">
+      <div class="card process-card">
+        <span class="step-num">01</span>
+        <h3>Free 3-Day Audit</h3>
+        <p>We look at your invoice pile with read-only access. You get two numbers: what it's costing you, and what fixing it looks like.</p>
+      </div>
+      <div class="card process-card">
+        <span class="step-num">02</span>
+        <h3>Fixed-Price Build</h3>
+        <p>One price, one scope, written down — including what's <em>not</em> included. Typically 3–4 weeks.</p>
+      </div>
+      <div class="card process-card">
+        <span class="step-num">03</span>
+        <h3>Handover</h3>
+        <p>You own the system. No licence lock-in, no forced monthly dependency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="inverted">
+      <div class="section-label" style="color:var(--smoke);">Who We Are</div>
+      <h2>A Small Team, Not a Software Company</h2>
+      <p>We're a small team — integration, backend, ERP, and infrastructure engineers, based between Dubai and the US. We connect systems that already exist: WhatsApp, your CRM, your accounting. We don't build software from scratch and we don't sell licences.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="wrap">
+    <h2>Free 3-Day Audit</h2>
+    <p>We look at your invoice pile with read-only access. You get two numbers: what it's costing you, and what fixing it looks like.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/77713578058?text=Hi%20Rawabits%2C%20I%27d%20like%20a%20free%203-day%20audit" class="btn btn-filled" style="background:var(--mint-chip); color:var(--carbon-black);" target="_blank" rel="noopener">Start on WhatsApp</a>
+      <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1qlUwPnrs5MENw-JposGAV4iRb5EdpQL9-kvzBGxhGBRzShvGHKx014YKRk2ibn3Uc6N1zJiHN?gv=true" class="btn btn-ghost-light" target="_blank" rel="noopener">Book a Call</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Rawabits — a project of Ilyas Pro Services LLC, Chicago, IL. Serving the UAE &amp; GCC.</span>
+    <span>© 2026 Rawabits. All rights reserved.</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -183,7 +183,7 @@ window.dataLayer = window.dataLayer || [];
 
       <div style="display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:8px;" data-industries-carousel="true" ref="{{ setCarouselRef }}">
         <sc-for list="{{ t.industries }}" as="ind" hint-placeholder-count="5">
-          <div style="min-width:86vw; scroll-snap-align:center; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; flex-shrink:0;">
+          <div style="flex:0 0 86vw; width:86vw; max-width:86vw; scroll-snap-align:center; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; box-sizing:border-box;">
             <h3 style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:clamp(1.25rem,3vw,1.75rem); margin:0 0 16px; color:var(--text);">{{ ind.title }}</h3>
             <div style="margin-bottom:14px;">
               <div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim); margin-bottom:6px;">{{ t.breaksLabel }}</div>

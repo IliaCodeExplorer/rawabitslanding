@@ -8,443 +8,427 @@
 <body>
 <x-dc>
 <helmet>
+<title>Rawabits / Автоматизация продаж</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Onest:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&family=Onest:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script>
+window.dataLayer = window.dataLayer || [];
+// GTM-XXXXXXX is a placeholder: replace with the real container id before publishing.
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');
+</script>
 <style>
 :root{
-  --paper:#E9E5D8; --paper-hi:#F4F1E7; --carbon:#2B2453; --carbon-60:rgba(43,36,83,0.62);
-  --rule:rgba(43,36,83,0.16); --marker:#F5D021; --stamp:#B23A48;
+  --bg:#0C0C0C; --surface:#141414; --text:#D7E2EA; --text-dim:rgba(215,226,234,0.60);
+  --line:rgba(215,226,234,0.14); --accent:#D9A441; --accent-hi:#EDBB5B; --ok:#4CAF7D; --alert:#E0574F;
 }
-*{box-sizing:border-box;} html,body{margin:0;padding:0;}
-body{background:var(--paper);}
-*:focus-visible{outline:2px solid var(--carbon); outline-offset:2px;}
-a{color:var(--carbon);} a:hover{color:var(--stamp);}
-@keyframes fadeUp{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
-@keyframes markerSweep{ from{transform:scaleX(0);} to{transform:scaleX(1);} }
-@media (prefers-reduced-motion: reduce){
-  .fu{animation:none !important; opacity:1 !important; transform:none !important;}
-  .mk{animation:none !important; transform:scaleX(1) !important;}
+*{box-sizing:border-box;} html,body,#root{margin:0;padding:0;background:#0C0C0C;}
+*:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+@keyframes cardIn{ from{opacity:0; transform:translateX(-32px);} to{opacity:1; transform:translateX(0);} }
+@keyframes industryIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+@keyframes chipFlash{ 0%{border-color:var(--line); color:var(--text-dim);} 30%{border-color:var(--accent); color:var(--accent);} 100%{border-color:var(--line); color:var(--text-dim);} }
+@media (max-width:400px){ [data-hero-cta]{ width:100%; } }
+@media (min-width:1100px){ [data-nav-links]{ display:flex !important; } [data-nav-burger]{ display:none !important; } }
+@media (min-width:1024px){
+  [data-hero-grid]{ grid-template-columns:1fr 1fr !important; }
+  [data-mobile-sticky]{ display:none !important; }
+  [data-steps-grid]{ grid-template-columns:repeat(4,1fr) !important; }
 }
+@media (min-width:640px){ [data-pain-grid]{ grid-template-columns:repeat(2,1fr) !important; } }
+@media (min-width:1024px){ [data-pain-grid]{ grid-template-columns:repeat(3,1fr) !important; } }
+@media (min-width:768px){ [data-industries-tabs]{ display:flex !important; } [data-industries-carousel]{ display:none !important; } }
+@media (prefers-reduced-motion: reduce){ .rm-none{ animation:none !important; transition:none !important; } }
 </style>
 </helmet>
-<div style="position:relative; background:var(--paper); background-image: repeating-linear-gradient(to bottom, rgba(43,36,83,0.05) 0px, rgba(43,36,83,0.05) 1px, transparent 1px, transparent 32px); font-family:'Onest',sans-serif; color:var(--carbon); min-height:100vh; overflow-x:hidden;">
-  <div aria-hidden="true" style="position:absolute; top:0; left:96px; bottom:0; width:1px; background:var(--rule); display:none;" data-desktop-rule="true"></div>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div style="background:var(--bg); color:var(--text); font-family:'Onest',sans-serif; overflow-x:clip; min-height:100vh;">
 
-  <header style="position:sticky; top:0; z-index:40; background:rgba(233,229,216,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule);">
-    <div style="max-width:1180px; margin:0 auto; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
-      <a href="#top" aria-label="rawabits, на главную" style="text-decoration:none; position:relative; display:inline-block;">
-        <span style="position:relative; z-index:1; font-family:'Unbounded',sans-serif; font-weight:700; font-size:20px; color:var(--carbon);">rawabits</span>
-        <span aria-hidden="true" class="mk" style="position:absolute; left:-2%; width:46%; height:6px; bottom:2px; background:var(--marker); mix-blend-mode:multiply; z-index:0; transform-origin:left; animation:markerSweep 0.5s cubic-bezier(.22,1,.36,1) 0.7s both;"></span>
+  <header style="min-height:100vh; display:flex; flex-direction:column; overflow-x:clip; padding:0 20px;" data-hero-pad="true">
+    <nav style="padding-top:24px; display:flex; align-items:center; justify-content:space-between; gap:32px; opacity:{{ fu.nav.o }}; transform:translateY({{ fu.nav.y }}px); transition:{{ fu.nav.t }};" class="rm-none">
+      <a href="#top" aria-label="rawabits" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M2 20 L12 8 L16 8 L6 20 Z" fill="#D9A441"></path><path d="M12 20 L22 8 L26 8 L16 20 Z" fill="#D9A441"></path></svg>
+        <span style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:19px; color:var(--text);">rawabits</span>
       </a>
-      <nav aria-label="Разделы страницы" style="display:none; gap:32px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase;" data-desktop-nav="true">
-        <a href="#familiar" style="text-decoration:none; color:var(--carbon);">{{ t.nav.link1 }}</a>
-        <a href="#niches" style="text-decoration:none; color:var(--carbon);">{{ t.nav.link2 }}</a>
-        <a href="#process" style="text-decoration:none; color:var(--carbon);">{{ t.nav.link3 }}</a>
-      </nav>
-      <div style="display:flex; align-items:center; gap:20px;">
-        <div role="group" aria-label="Язык / Language" style="display:flex; gap:14px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em;">
-          <button onClick="{{ setLangRu }}" aria-label="Русский" style="background:none; border:none; cursor:pointer; padding:2px 0; position:relative; color:var(--carbon); font-family:inherit; font-size:inherit; letter-spacing:inherit;">
-            RU
-            <sc-if value="{{ isRu }}"><span aria-hidden="true" style="position:absolute; left:0; right:0; bottom:-3px; height:3px; background:var(--marker); mix-blend-mode:multiply;"></span></sc-if>
-          </button>
-          <button onClick="{{ setLangEn }}" aria-label="English" style="background:none; border:none; cursor:pointer; padding:2px 0; position:relative; color:var(--carbon); font-family:inherit; font-size:inherit; letter-spacing:inherit;">
-            EN
-            <sc-if value="{{ isEn }}"><span aria-hidden="true" style="position:absolute; left:0; right:0; bottom:-3px; height:3px; background:var(--marker); mix-blend-mode:multiply;"></span></sc-if>
-          </button>
+      <div style="display:none; align-items:center; gap:32px;" data-nav-links="true">
+        <sc-for list="{{ t.navLinks }}" as="link" hint-placeholder-count="3">
+          <a href="{{ link.href }}" style="font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--text); text-decoration:none; transition:opacity 0.2s ease;" style-hover="opacity:0.7;">{{ link.text }}</a>
+        </sc-for>
+      </div>
+      <div style="display:flex; align-items:center; gap:18px;">
+        <div style="display:flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:13px;">
+          <button onClick="{{ setLangRu }}" aria-label="Русский" style="background:none; border:none; cursor:pointer; padding:0; font-family:inherit; font-size:inherit; color:var(--text); opacity:{{ opRu }};">RU</button>
+          <span style="opacity:0.4; color:var(--text);">/</span>
+          <button onClick="{{ setLangEn }}" aria-label="English" style="background:none; border:none; cursor:pointer; padding:0; font-family:inherit; font-size:inherit; color:var(--text); opacity:{{ opEn }};">EN</button>
         </div>
-        <a href="{{ t.whatsapp }}" target="_blank" rel="noopener" aria-label="{{ t.hero.ctaLabel }}" style="display:none; align-items:center; gap:8px; background:var(--carbon); color:var(--paper-hi); text-decoration:none; padding:10px 16px; border-radius:4px; font-weight:500; font-size:14px;" data-desktop-cta="true">
-          {{ t.nav.ctaShort }}
-        </a>
-        <button onClick="{{ toggleMenu }}" aria-label="Открыть меню" style="display:flex; background:none; border:1px solid var(--rule); border-radius:4px; padding:8px; cursor:pointer;" data-mobile-only="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        <a href="{{ waLink }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t.navCta }}" onClick="{{ pushNavbar }}" style="display:none; background:var(--accent); color:#0C0C0C; border-radius:999px; padding:10px 24px; font-size:14px; font-weight:500; text-decoration:none; transition:background 0.15s ease;" style-hover="background:var(--accent-hi);" data-nav-links="true">{{ t.navCta }}</a>
+        <button onClick="{{ openMenu }}" aria-label="Открыть меню" style="background:none; border:none; cursor:pointer; padding:4px;" data-nav-burger="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
+      </div>
+    </nav>
+
+    <h1 class="rm-none" style="font-family:'Unbounded',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:-0.02em; line-height:0.98; margin:clamp(32px,6vw,72px) 0 0; max-width:15ch; font-size:clamp(2.1rem,7vw,5.2rem); background:linear-gradient(180deg, #6E7580 0%, #C9D6E0 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; opacity:{{ fu.heading.o }}; transform:translateY({{ fu.heading.y }}px); transition:{{ fu.heading.t }};">{{ t.heading }}</h1>
+
+    <div style="display:grid; grid-template-columns:1fr; gap:40px; margin-top:clamp(28px,4vw,48px); padding-bottom:clamp(48px,8vw,96px); flex:1;" data-hero-grid="true">
+      <div>
+        <p class="rm-none" style="font-weight:400; color:var(--text-dim); line-height:1.65; font-size:clamp(0.95rem,1.5vw,1.15rem); max-width:520px; margin:0; opacity:{{ fu.para.o }}; transform:translateY({{ fu.para.y }}px); transition:{{ fu.para.t }};">{{ t.paragraph }}</p>
+        <a class="rm-none" href="{{ waLink }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t.heroCta }}" onClick="{{ pushHero }}" data-hero-cta="true" style="display:inline-flex; align-items:center; justify-content:space-between; gap:28px; margin-top:32px; background:var(--accent); color:#0C0C0C; border-radius:999px; padding:17px 28px; font-weight:700; font-size:clamp(0.9rem,2vw,1rem); min-width:300px; text-decoration:none; transition:background 0.15s ease, transform 0.12s ease; opacity:{{ fu.cta.o }}; transform:translateY({{ fu.cta.y }}px) scale(1);" style-hover="background:var(--accent-hi);" style-active="transform:scale(0.97);">
+          {{ t.heroCta }}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C0C0C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="10 8 15 12 10 16"></polyline></svg>
+        </a>
+        <p class="rm-none" style="font-size:13px; color:var(--text-dim); margin:14px 0 0; line-height:1.5; display:flex; align-items:center; gap:8px; opacity:{{ fu.lines.o }}; transform:translateY({{ fu.lines.y }}px); transition:{{ fu.lines.t }};">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M21 11.5a8.4 8.4 0 0 1-1 4 8.5 8.5 0 0 1-7.5 4.5 8.4 8.4 0 0 1-4-1L3 21l2-5.5a8.4 8.4 0 0 1-1-4A8.5 8.5 0 0 1 8.5 3a8.4 8.4 0 0 1 4-1h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          {{ t.line1 }}
+        </p>
+        <p class="rm-none" style="font-size:13px; color:var(--text-dim); margin:8px 0 0; line-height:1.5; display:flex; align-items:center; gap:8px; opacity:{{ fu.lines.o }}; transform:translateY({{ fu.lines.y }}px); transition:{{ fu.lines.t }};">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="4" width="18" height="17" rx="1"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="9" y1="10" x2="9" y2="21"></line></svg>
+          {{ t.line2 }}
+        </p>
+      </div>
+
+      <div class="rm-none" style="opacity:{{ fu.panel.o }}; transform:translateY({{ fu.panel.y }}px); transition:{{ fu.panel.t }}; border:1px solid var(--line); background:rgba(255,255,255,0.03); border-radius:24px; padding:18px; height:clamp(360px,46vw,460px); overflow:hidden; position:relative; display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim);">INCOMING LEADS</span>
+          <div style="display:flex; gap:20px; text-align:right;">
+            <div>
+              <div style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:20px; color:var(--ok);">{{ capturedCount }}</div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim);">CAPTURED</div>
+            </div>
+            <div>
+              <div style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:20px; color:var(--text-dim);">0</div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim);">LOST</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;">
+          <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="4">
+            <span style="border:1px solid {{ chip.color }}; color:{{ chip.color }}; border-radius:999px; padding:5px 11px; font-family:'JetBrains Mono',monospace; font-size:10px; display:inline-flex; align-items:center; gap:5px; transition:border-color 0.3s ease, color 0.3s ease;">{{ chip.label }}</span>
+          </sc-for>
+        </div>
+        <div style="margin-top:14px; flex:1; overflow:hidden; display:flex; flex-direction:column;">
+          <sc-for list="{{ visibleCards }}" as="card" hint-placeholder-count="4">
+            <div key="{{ card.id }}" style="background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:11px 13px; margin-bottom:8px; opacity:{{ card.op }}; animation:{{ card.anim }};">
+              <div style="display:flex; align-items:center; gap:7px;">
+                <span style="color:var(--accent); font-size:13px;">{{ card.icon }}</span>
+                <span style="font-weight:500; font-size:13px; color:var(--text);">{{ card.name }}</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); margin-left:auto;">{{ card.time }}</span>
+              </div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); margin-top:4px;">{{ card.request }} · {{ card.budget }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-dim); text-align:center; padding-top:6px;">ALL CAPTURED OUTSIDE WORKING HOURS</div>
       </div>
     </div>
   </header>
 
-  <div aria-hidden="{{ menuHidden }}" style="{{ menuOverlayStyle }}" onClick="{{ closeMenu }}"></div>
-  <div role="dialog" aria-label="Меню" style="{{ menuPanelStyle }}">
-    <div style="display:flex; justify-content:flex-end; padding:16px;">
-      <button onClick="{{ closeMenu }}" aria-label="Закрыть меню" style="background:none; border:1px solid var(--rule); border-radius:4px; padding:8px; cursor:pointer;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+  <div aria-hidden="{{ menuHidden }}" style="position:fixed; inset:0; z-index:48; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); opacity:{{ menuOpenN }}; pointer-events:{{ menuPointerEvents }}; transition:opacity 0.3s ease;" onClick="{{ closeMenu }}"></div>
+  <div role="dialog" aria-label="Меню" style="position:fixed; right:0; top:0; z-index:49; width:min(88vw,340px); height:100dvh; background:var(--surface); border-left:1px solid var(--line); transform:translateX({{ sheetX }}); transition:transform 0.42s cubic-bezier(.22,1,.36,1);">
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:20px; border-bottom:1px solid var(--line);">
+      <span style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:18px; color:var(--text);">rawabits</span>
+      <button onClick="{{ closeMenu }}" aria-label="Закрыть меню" style="background:none; border:none; cursor:pointer; padding:4px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
       </button>
     </div>
-    <nav style="display:flex; flex-direction:column; gap:24px; padding:8px 32px 32px; font-family:'JetBrains Mono',monospace; font-size:14px; letter-spacing:0.08em; text-transform:uppercase;">
-      <a href="#familiar" onClick="{{ closeMenu }}" style="text-decoration:none; color:var(--carbon);">{{ t.nav.link1 }}</a>
-      <a href="#niches" onClick="{{ closeMenu }}" style="text-decoration:none; color:var(--carbon);">{{ t.nav.link2 }}</a>
-      <a href="#process" onClick="{{ closeMenu }}" style="text-decoration:none; color:var(--carbon);">{{ t.nav.link3 }}</a>
-      <a href="{{ t.whatsapp }}" target="_blank" rel="noopener" aria-label="{{ t.hero.ctaLabel }}" style="text-decoration:none; background:var(--carbon); color:var(--paper-hi); padding:14px 18px; border-radius:4px; text-align:center; font-weight:500; text-transform:none; letter-spacing:normal; font-family:'Onest',sans-serif;">
-        {{ t.hero.ctaLabel }}
-      </a>
-    </nav>
+    <div style="display:flex; flex-direction:column; gap:22px; padding:28px 24px; height:calc(100% - 73px); justify-content:space-between;">
+      <div style="display:flex; flex-direction:column; gap:22px;">
+        <sc-for list="{{ t.navLinksKeyed }}" as="link" hint-placeholder-count="3">
+          <a key="{{ link.key }}" href="{{ link.href }}" onClick="{{ closeMenu }}" style="font-size:16px; font-weight:500; color:var(--text); text-decoration:none; text-transform:uppercase; letter-spacing:0.04em; opacity:{{ menuOpenN }}; transform:translateX({{ sheetItemX }}px); transition:opacity 0.4s cubic-bezier(.22,1,.36,1) {{ link.delay }}s, transform 0.4s cubic-bezier(.22,1,.36,1) {{ link.delay }}s;">{{ link.text }}</a>
+        </sc-for>
+      </div>
+      <a href="{{ waLink }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t.navCta }}" onClick="{{ pushNavbar }}" style="text-align:center; background:var(--accent); color:#0C0C0C; border-radius:999px; padding:14px 20px; font-size:15px; font-weight:700; text-decoration:none;">{{ t.navCta }}</a>
+    </div>
   </div>
 
-  <main id="top" style="position:relative; z-index:1;">
-    <section aria-label="Hero" style="max-width:1180px; margin:0 auto; padding:56px 24px 64px; display:grid; grid-template-columns:1fr; gap:48px;" data-desktop-grid="hero">
-      <div>
-        <p class="fu" style="animation:fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0s both; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:0 0 20px;">{{ t.hero.eyebrow }}</p>
-        <h1 class="fu" style="animation:fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.12s both; font-family:'Unbounded',sans-serif; font-weight:700; font-size:clamp(2rem,4.6vw,3.2rem); line-height:1.04; letter-spacing:-0.02em; max-width:620px; margin:0 0 20px;">
-          {{ t.hero.titlePre }}<span style="position:relative; display:inline-block;"><span aria-hidden="true" class="mk" style="position:absolute; left:-2%; right:-2%; top:6%; bottom:0%; background:var(--marker); mix-blend-mode:multiply; z-index:0; transform-origin:left; animation:markerSweep 0.5s cubic-bezier(.22,1,.36,1) 0.7s both; clip-path:polygon(1% 14%, 98% 3%, 100% 90%, 2% 97%);"></span><span style="position:relative; z-index:1;">{{ t.hero.titleHighlight }}</span></span>
-        </h1>
-        <p class="fu" style="animation:fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.24s both; font-size:clamp(1rem,1.6vw,1.15rem); line-height:1.6; color:var(--carbon-60); max-width:560px; margin:0 0 32px;">{{ t.hero.subtitle }}</p>
-        <a class="fu" href="{{ t.whatsapp }}" target="_blank" rel="noopener" aria-label="{{ t.hero.ctaLabel }}" style="animation:fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.36s both; display:inline-flex; align-items:center; gap:24px; background:var(--carbon); color:var(--paper-hi); text-decoration:none; padding:17px 26px; border-radius:4px; font-weight:500; font-size:16px; transition:transform 0.2s ease, background 0.2s ease;" style-hover="transform:translateY(-2px); background:#231D45;" style-active="transform:scale(0.98);">
-          {{ t.hero.ctaLabel }}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </a>
-        <p class="fu" style="animation:fadeUp 0.6s cubic-bezier(.22,1,.36,1) 0.44s both; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:16px 0 0;">{{ t.hero.note }}</p>
-      </div>
-      <div style="animation:fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.35s both;">
-        <div style="position:relative; background:var(--paper-hi); border:1px solid var(--rule); border-radius:4px; padding:28px 24px; box-shadow:0 1px 0 rgba(43,36,83,0.08); transform:rotate(-0.6deg); max-width:480px;">
-          <span style="position:absolute; top:-10px; right:12px; transform:rotate(-2deg); font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); background:var(--paper-hi); padding:2px 6px; border:1px solid var(--rule);">{{ t.hero.formTag }}</span>
-          <sc-for list="{{ t.hero.formRows }}" as="row" hint-placeholder-count="4">
-            <div style="padding:14px 0; border-bottom:1px solid var(--rule);">
-              <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin-bottom:6px;">{{ row.label }}</div>
-              <div style="font-size:16px; color:var(--carbon);">{{ row.value }}</div>
-            </div>
-          </sc-for>
-          <div style="padding:14px 0 0;">
-            <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin-bottom:6px;">{{ t.hero.formHighlightLabel }}</div>
-            <span style="position:relative; display:inline-block;">
-              <span aria-hidden="true" class="mk" style="position:absolute; left:-4%; right:-4%; top:10%; bottom:0%; background:var(--marker); mix-blend-mode:multiply; z-index:0; transform-origin:left; animation:markerSweep 0.5s cubic-bezier(.22,1,.36,1) 1.2s both; clip-path:polygon(2% 20%, 97% 6%, 100% 85%, 1% 96%);"></span>
-              <span style="position:relative; z-index:1; font-family:'Unbounded',sans-serif; font-weight:700; font-size:30px; color:var(--stamp);">{{ t.hero.formHighlightValue }}</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div aria-hidden="{{ stickyHidden }}" style="position:fixed; left:0; right:0; bottom:0; z-index:45; background:rgba(12,12,12,0.92); backdrop-filter:blur(10px); border-top:1px solid var(--line); padding:12px 16px calc(12px + env(safe-area-inset-bottom)); transform:translateY({{ stickyY }}); transition:transform 0.3s ease;" data-mobile-sticky="true">
+    <a href="{{ waLink }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t.heroCta }}" onClick="{{ pushSticky }}" style="display:flex; align-items:center; justify-content:center; gap:12px; background:var(--accent); color:#0C0C0C; text-decoration:none; border-radius:999px; padding:14px; font-weight:700; font-size:15px;">{{ t.heroCta }}</a>
+  </div>
 
-    <section id="familiar" ref="{{ setFamiliarRef }}" style="opacity:{{ revFamiliar }}; transform:translateY({{ revFamiliarY }}px); transition:opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1); max-width:1180px; margin:0 auto; padding:64px 24px;">
-      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:0 0 16px;">{{ t.familiar.eyebrow }}</p>
-      <h2 style="font-family:'Unbounded',sans-serif; font-weight:700; font-size:clamp(1.6rem,3vw,2.2rem); line-height:1.1; letter-spacing:-0.02em; max-width:640px; margin:0 0 40px;">{{ t.familiar.title }}</h2>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule);" data-familiar-grid="true">
-        <sc-for list="{{ t.familiar.items }}" as="item" hint-placeholder-count="6">
-          <div style="background:var(--paper-hi); padding:24px; position:relative; min-height:140px;">
-            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--carbon-60);">{{ item.n }}</span>
-            <p style="font-size:17px; line-height:1.4; margin:12px 0 0;">{{ item.text }}</p>
+  <main>
+    <section id="pain" ref="{{ setPainRef }}" style="max-width:1152px; margin:0 auto; padding:96px 20px; opacity:{{ rev.pain.o }}; transform:translateY({{ rev.pain.y }}px); transition:opacity 0.6s cubic-bezier(.25,.1,.25,1), transform 0.6s cubic-bezier(.25,.1,.25,1);">
+      <h2 style="font-family:'Unbounded',sans-serif; font-weight:800; text-transform:uppercase; line-height:0.98; letter-spacing:-0.02em; font-size:clamp(2rem,7vw,4.5rem); margin:0 0 clamp(40px,6vw,72px); max-width:18ch; background:linear-gradient(180deg, #6E7580 0%, #C9D6E0 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">{{ t.painTitle }}</h2>
+      <div style="display:grid; grid-template-columns:1fr; gap:1px; background:var(--line);" data-pain-grid="true">
+        <sc-for list="{{ t.painItems }}" as="item" hint-placeholder-count="6">
+          <div style="background:var(--surface); padding:26px 22px;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent); display:block; margin-bottom:10px;">{{ item.n }}</span>
+            <p style="font-size:clamp(0.95rem,1.6vw,1.1rem); line-height:1.5; color:var(--text); margin:0;">{{ item.text }}</p>
           </div>
         </sc-for>
       </div>
+      <p style="font-weight:400; font-size:clamp(1.05rem,2vw,1.4rem); line-height:1.5; max-width:760px; margin-top:clamp(40px,6vw,72px); color:var(--text);">{{ t.painReasonPre }}<span style="color:var(--accent);">{{ t.painReasonHighlight }}</span></p>
     </section>
 
-    <section id="why" ref="{{ setWhyRef }}" style="opacity:{{ revWhy }}; transform:translateY({{ revWhyY }}px); transition:opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1); max-width:1180px; margin:0 auto; padding:64px 24px;">
-      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:0 0 16px;">{{ t.why.eyebrow }}</p>
-      <p style="font-size:clamp(1.2rem,2.2vw,1.5rem); line-height:1.5; max-width:720px; margin:0 0 48px;">
-        {{ t.why.textPre }}<span style="position:relative; display:inline-block;"><span aria-hidden="true" style="position:absolute; left:-2%; right:-2%; top:8%; bottom:2%; background:var(--marker); mix-blend-mode:multiply; z-index:0; clip-path:polygon(1% 10%, 97% 2%, 100% 92%, 3% 98%);"></span><span style="position:relative; z-index:1;">{{ t.why.textHighlight }}</span></span>
-      </p>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px;" data-why-grid="true">
-        <sc-for list="{{ t.why.points }}" as="pt" hint-placeholder-count="3">
-          <div>
-            <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin-bottom:10px;">{{ pt.label }}</div>
-            <p style="font-size:15px; line-height:1.5; margin:0;">{{ pt.text }}</p>
-          </div>
+    <section id="industries" ref="{{ setIndustriesRef }}" style="max-width:1152px; margin:0 auto; padding:0 20px 96px; opacity:{{ rev.industries.o }}; transform:translateY({{ rev.industries.y }}px); transition:opacity 0.6s cubic-bezier(.25,.1,.25,1), transform 0.6s cubic-bezier(.25,.1,.25,1);">
+      <h2 style="font-family:'Unbounded',sans-serif; font-weight:800; text-transform:uppercase; line-height:0.98; letter-spacing:-0.02em; font-size:clamp(2rem,7vw,4.5rem); margin:0 0 clamp(40px,6vw,72px); background:linear-gradient(180deg, #6E7580 0%, #C9D6E0 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">{{ t.industriesTitle }}</h2>
+
+      <div style="display:none; gap:8px; flex-wrap:wrap;" data-industries-tabs="true">
+        <sc-for list="{{ t.industries }}" as="ind" hint-placeholder-count="5">
+          <button onClick="{{ ind.select }}" aria-label="{{ ind.title }}" style="border:1px solid {{ ind.tabBorder }}; background:{{ ind.tabBg }}; color:{{ ind.tabColor }}; border-radius:999px; padding:9px 18px; font-size:14px; font-weight:500; cursor:pointer;">{{ ind.title }}</button>
         </sc-for>
       </div>
-    </section>
-
-    <section id="niches" ref="{{ setNichesRef }}" style="opacity:{{ revNiches }}; transform:translateY({{ revNichesY }}px); transition:opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1); max-width:1180px; margin:0 auto; padding:64px 24px;">
-      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:0 0 16px;">{{ t.niches.eyebrow }}</p>
-      <h2 style="font-family:'Unbounded',sans-serif; font-weight:700; font-size:clamp(1.6rem,3vw,2.2rem); line-height:1.1; letter-spacing:-0.02em; margin:0 0 40px;">{{ t.niches.title }}</h2>
-      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:20px;" data-niches-grid="true">
-        <sc-for list="{{ t.niches.items }}" as="n" hint-placeholder-count="5">
-          <div style="background:var(--paper-hi); border:1px solid var(--rule); border-radius:4px; padding:24px;">
-            <h3 style="font-family:'Unbounded',sans-serif; font-weight:700; font-size:19px; letter-spacing:-0.02em; margin:0 0 16px;">{{ n.title }}</h3>
+      <div style="display:none; margin-top:24px; min-height:300px;" data-industries-tabs="true">
+        <div key="{{ activeIndustry }}" style="animation:industryIn 0.25s ease both;">
+          <h3 style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:clamp(1.25rem,3vw,1.75rem); margin:0 0 20px; color:var(--text);">{{ activeTitle }}</h3>
+          <div style="background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px;">
             <div style="margin-bottom:14px;">
-              <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--stamp); margin-bottom:6px;">{{ t.niches.breaksLabel }}</div>
-              <p style="font-size:14px; line-height:1.5; color:var(--carbon-60); margin:0;">{{ n.breaks }}</p>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim); margin-bottom:6px;">{{ t.breaksLabel }}</div>
+              <p style="font-size:15px; line-height:1.55; color:var(--text); margin:0;">{{ activeBreaks }}</p>
             </div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin-bottom:6px;">{{ t.niches.setsLabel }}</div>
-              <p style="font-size:14px; line-height:1.5; margin:0;">{{ n.sets }}</p>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim); margin-bottom:6px;">{{ t.setsLabel }}</div>
+              <p style="font-size:15px; line-height:1.55; color:var(--text); margin:0;">{{ activeSets }}</p>
             </div>
-            <sc-if value="{{ n.note }}">
-              <p style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:16px 0 0; padding-top:14px; border-top:1px solid var(--rule);">{{ n.note }}</p>
-            </sc-if>
           </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:8px;" data-industries-carousel="true" ref="{{ setCarouselRef }}">
+        <sc-for list="{{ t.industries }}" as="ind" hint-placeholder-count="5">
+          <div style="min-width:86vw; scroll-snap-align:center; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; flex-shrink:0;">
+            <h3 style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:clamp(1.25rem,3vw,1.75rem); margin:0 0 16px; color:var(--text);">{{ ind.title }}</h3>
+            <div style="margin-bottom:14px;">
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim); margin-bottom:6px;">{{ t.breaksLabel }}</div>
+              <p style="font-size:15px; line-height:1.55; color:var(--text); margin:0;">{{ ind.breaks }}</p>
+            </div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim); margin-bottom:6px;">{{ t.setsLabel }}</div>
+              <p style="font-size:15px; line-height:1.55; color:var(--text); margin:0;">{{ ind.sets }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; gap:8px; justify-content:center; margin-top:16px;" data-industries-carousel="true">
+        <sc-for list="{{ t.industries }}" as="ind" hint-placeholder-count="5">
+          <span style="width:6px; height:6px; border-radius:999px; background:{{ ind.dotColor }};"></span>
         </sc-for>
       </div>
     </section>
 
-    <section id="process" ref="{{ setProcessRef }}" style="opacity:{{ revProcess }}; transform:translateY({{ revProcessY }}px); transition:opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1); max-width:1180px; margin:0 auto; padding:64px 24px;">
-      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:0 0 16px;">{{ t.process.eyebrow }}</p>
-      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px; position:relative;" data-process-grid="true">
-        <div aria-hidden="true" style="position:absolute; top:11px; left:5%; right:5%; height:1px; background:var(--rule); display:none;" data-process-line="true"></div>
-        <sc-for list="{{ t.process.steps }}" as="s" hint-placeholder-count="4">
-          <div style="position:relative;">
-            <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; color:var(--carbon-60); background:var(--paper); display:inline-block; margin-bottom:16px;">{{ s.num }}</div>
-            <h3 style="font-family:'Unbounded',sans-serif; font-weight:700; font-size:17px; letter-spacing:-0.02em; margin:0 0 10px;">{{ s.title }}</h3>
-            <p style="font-size:14px; line-height:1.5; color:var(--carbon-60); margin:0;">{{ s.text }}</p>
-          </div>
-        </sc-for>
+    <section style="background:#F4F4F1; color:#0C0C0C; border-radius:40px 40px 0 0; padding:96px 20px;">
+      <div id="steps" ref="{{ setStepsRef }}" style="max-width:1152px; margin:0 auto; opacity:{{ rev.steps.o }}; transform:translateY({{ rev.steps.y }}px); transition:opacity 0.6s cubic-bezier(.25,.1,.25,1), transform 0.6s cubic-bezier(.25,.1,.25,1);">
+        <h2 style="font-family:'Unbounded',sans-serif; font-weight:800; text-transform:uppercase; line-height:0.98; letter-spacing:-0.02em; font-size:clamp(2rem,7vw,4.5rem); margin:0 0 clamp(40px,6vw,72px); color:#0C0C0C;">{{ t.stepsTitle }}</h2>
+        <div style="display:grid; grid-template-columns:1fr; gap:24px;" data-steps-grid="true">
+          <sc-for list="{{ t.steps }}" as="s" hint-placeholder-count="4">
+            <div style="border-top:1px solid rgba(12,12,12,0.15); padding-top:20px;">
+              <div style="font-family:'Unbounded',sans-serif; font-weight:800; font-size:clamp(2.5rem,6vw,4rem); color:rgba(12,12,12,0.18); line-height:1;">{{ s.num }}</div>
+              <div style="font-weight:700; font-size:17px; margin-top:12px;">{{ s.title }}</div>
+              <div style="font-weight:400; font-size:15px; opacity:0.65; line-height:1.55; margin-top:8px;">{{ s.text }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <p style="font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; opacity:0.5; margin-top:clamp(40px,6vw,72px);">{{ t.stepsNote }}</p>
       </div>
-      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:40px 0 0;">{{ t.process.note }}</p>
+
+      <div ref="{{ setBuildRef }}" style="max-width:1152px; margin:clamp(72px,10vw,128px) auto 0; opacity:{{ rev.build.o }}; transform:translateY({{ rev.build.y }}px); transition:opacity 0.6s cubic-bezier(.25,.1,.25,1), transform 0.6s cubic-bezier(.25,.1,.25,1);">
+        <h2 style="font-family:'Unbounded',sans-serif; font-weight:800; text-transform:uppercase; line-height:0.98; letter-spacing:-0.02em; font-size:clamp(2rem,7vw,4.5rem); margin:0 0 clamp(40px,6vw,72px); color:#0C0C0C;">{{ t.buildTitle }}</h2>
+        <div style="max-width:900px;">
+          <sc-for list="{{ t.buildItems }}" as="it" hint-placeholder-count="6">
+            <div style="display:flex; align-items:center; gap:18px; padding:22px 0; border-bottom:1px solid rgba(12,12,12,0.15);">
+              <span style="opacity:0.45; flex-shrink:0;" dangerouslySetInnerHTML="{{ it.iconHtml }}"></span>
+              <span style="font-weight:500; font-size:clamp(1rem,2vw,1.3rem);">{{ it.text }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <p style="font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; opacity:0.45; margin-top:32px;">{{ t.buildNote }}</p>
+      </div>
     </section>
 
-    <section id="after" ref="{{ setAfterRef }}" style="opacity:{{ revAfter }}; transform:translateY({{ revAfterY }}px); transition:opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1); max-width:1180px; margin:0 auto; padding:64px 24px;">
-      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:0 0 32px;">{{ t.after.eyebrow }}</p>
-      <div style="display:flex; flex-direction:column; gap:20px; max-width:640px;">
-        <div style="display:flex; align-items:center; gap:16px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(43,36,83,0.62)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="1"></rect><path d="M3 7l4 5h10l4-5"></path></svg>
-          <p style="font-size:16px; margin:0;">{{ t.after.item1 }}</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:16px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(43,36,83,0.62)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="13" height="9" rx="1"></rect><rect x="8" y="11" width="13" height="9" rx="1"></rect></svg>
-          <p style="font-size:16px; margin:0;">{{ t.after.item2 }}</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:16px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(43,36,83,0.62)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"></rect><line x1="8" y1="9" x2="16" y2="9"></line><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>
-          <p style="font-size:16px; margin:0;">{{ t.after.item3 }}</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:16px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(43,36,83,0.62)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2"></circle><circle cx="6" cy="12" r="2"></circle><circle cx="6" cy="17" r="2"></circle><line x1="11" y1="7" x2="20" y2="7"></line><line x1="11" y1="12" x2="20" y2="12"></line><line x1="11" y1="17" x2="20" y2="17"></line></svg>
-          <p style="font-size:16px; margin:0;">{{ t.after.item4 }}</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:16px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(43,36,83,0.62)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="20" x2="5" y2="12"></line><line x1="12" y1="20" x2="12" y2="7"></line><line x1="19" y1="20" x2="19" y2="15"></line></svg>
-          <p style="font-size:16px; margin:0;">{{ t.after.item5 }}</p>
-        </div>
-        <div style="display:flex; align-items:center; gap:16px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(43,36,83,0.62)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,4 21,9 12,14 3,9"></polygon><path d="M7 11.5v4.5c2 1.2 8 1.2 10 0v-4.5"></path></svg>
-          <p style="font-size:16px; margin:0;">{{ t.after.item6 }}</p>
-        </div>
-      </div>
-      <p style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--carbon-60); margin:32px 0 0;">{{ t.after.note }}</p>
-    </section>
-
-    <section aria-label="CTA" ref="{{ setFinalRef }}" style="opacity:{{ revFinal }}; transform:translateY({{ revFinalY }}px); transition:opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1); max-width:1180px; margin:0 auto; padding:0 24px 80px;">
-      <div style="background:var(--carbon); color:var(--paper-hi); border-radius:4px; padding:clamp(40px,6vw,72px); text-align:center;">
-        <h2 style="font-family:'Unbounded',sans-serif; font-weight:700; font-size:clamp(1.6rem,3.4vw,2.4rem); letter-spacing:-0.02em; margin:0 0 16px;">{{ t.final.title }}</h2>
-        <p style="font-size:16px; line-height:1.6; opacity:0.8; margin:0 0 32px;">{{ t.final.subtitle }}</p>
-        <a href="{{ t.whatsapp }}" target="_blank" rel="noopener" aria-label="{{ t.hero.ctaLabel }}" style="display:inline-flex; align-items:center; gap:24px; background:var(--marker); color:var(--carbon); text-decoration:none; padding:17px 26px; border-radius:4px; font-weight:500; font-size:16px;">
-          {{ t.hero.ctaLabel }}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+    <section ref="{{ setFinalRef }}" style="background:var(--bg); border-radius:40px 40px 0 0; margin-top:-48px; position:relative; z-index:10; padding:clamp(80px,10vw,160px) 20px; opacity:{{ rev.final.o }}; transform:translateY({{ rev.final.y }}px); transition:opacity 0.6s cubic-bezier(.25,.1,.25,1), transform 0.6s cubic-bezier(.25,.1,.25,1);">
+      <div style="max-width:760px; margin:0 auto; text-align:center;">
+        <h2 style="font-family:'Unbounded',sans-serif; font-weight:800; text-transform:uppercase; line-height:0.98; letter-spacing:-0.02em; font-size:clamp(2rem,7vw,4.2rem); margin:0; background:linear-gradient(180deg, #6E7580 0%, #C9D6E0 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">{{ t.finalTitle }}</h2>
+        <p style="font-weight:400; font-size:clamp(0.95rem,1.8vw,1.15rem); color:var(--text-dim); margin-top:20px;">{{ t.finalSubtitle }}</p>
+        <a href="{{ waLink }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t.heroCta }}" onClick="{{ pushFinal }}" style="display:inline-flex; align-items:center; justify-content:space-between; gap:28px; margin-top:36px; background:var(--accent); color:#0C0C0C; border-radius:999px; padding:17px 28px; font-weight:700; font-size:clamp(0.9rem,2vw,1rem); min-width:300px; text-decoration:none; transition:background 0.15s ease;" style-hover="background:var(--accent-hi);">
+          {{ t.heroCta }}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C0C0C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="10 8 15 12 10 16"></polyline></svg>
         </a>
-        <p style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.7; margin:16px 0 0;">{{ t.final.note }}</p>
+        <p style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); margin-top:16px;">WHATSAPP +971 50 920 7604</p>
       </div>
     </section>
   </main>
 
-  <footer style="border-top:1px solid var(--rule); padding:32px 24px;">
-    <div style="max-width:1180px; margin:0 auto; display:flex; flex-direction:column; gap:16px; align-items:center; text-align:center; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em; color:var(--carbon-60);" data-footer-row="true">
-      <div>rawabits.com</div>
-      <div>{{ t.footer.city }}</div>
-      <div style="display:flex; gap:16px; align-items:center;">
-        <a href="{{ t.whatsapp }}" target="_blank" rel="noopener" aria-label="{{ t.hero.ctaLabel }}" style="color:var(--carbon-60); text-decoration:none;">WHATSAPP</a>
-        <button onClick="{{ toggleLangFooter }}" aria-label="Переключить язык" style="background:none; border:none; cursor:pointer; color:var(--carbon-60); font-family:inherit; font-size:inherit; letter-spacing:inherit;">{{ langOtherLabel }}</button>
-      </div>
+  <footer style="border-top:1px solid var(--line); padding:40px 20px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--text-dim);">
+    <span>rawabits · RAWABITS.COM</span>
+    <span>DUBAI, UAE</span>
+    <div style="display:flex; gap:16px; align-items:center;">
+      <a href="{{ waLink }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t.navCta }}" style="color:var(--text-dim); text-decoration:none;">WHATSAPP</a>
+      <button onClick="{{ toggleLangFooter }}" aria-label="Переключить язык" style="background:none; border:none; cursor:pointer; color:var(--text-dim); font-family:inherit; font-size:inherit; letter-spacing:inherit; text-transform:inherit;">{{ langOtherLabel }}</button>
     </div>
   </footer>
-
-  <div aria-hidden="{{ stickyBarHidden }}" style="{{ stickyBarStyle }}" data-mobile-sticky="true">
-    <a href="{{ t.whatsapp }}" target="_blank" rel="noopener" aria-label="{{ t.hero.ctaLabel }}" style="display:flex; align-items:center; justify-content:center; gap:12px; background:var(--carbon); color:var(--paper-hi); text-decoration:none; padding:16px; font-weight:500; font-size:15px; height:100%;">
-      {{ t.hero.ctaLabel }}
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-    </a>
-  </div>
-
-  <style>
-    @media (min-width: 768px){
-      [data-desktop-rule]{ display:block !important; }
-      [data-desktop-nav]{ display:flex !important; }
-      [data-desktop-cta]{ display:flex !important; }
-      [data-mobile-only]{ display:none !important; }
-      [data-mobile-sticky]{ display:none !important; }
-      section[aria-label="Hero"][data-desktop-grid]{ grid-template-columns:7fr 5fr !important; align-items:start; }
-      [data-familiar-grid]{ grid-template-columns:repeat(3,1fr) !important; }
-      [data-why-grid]{ grid-template-columns:repeat(3,1fr) !important; }
-      [data-niches-grid]{ grid-template-columns:repeat(2,1fr) !important; }
-      [data-process-grid]{ grid-template-columns:repeat(4,1fr) !important; }
-      [data-process-line]{ display:block !important; }
-      [data-footer-row]{ flex-direction:row !important; justify-content:space-between !important; }
-    }
-    @media (max-width: 767px){
-      [data-familiar-grid], [data-why-grid], [data-niches-grid], [data-process-grid]{ grid-template-columns:1fr !important; }
-    }
-  </style>
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-const WA_RU = "https://wa.me/971509207604?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B4%D0%B8%D0%B0%D0%B3%D0%BD%D0%BE%D1%81%D1%82%D0%B8%D0%BA%D1%83";
-const WA_EN = "https://wa.me/971509207604?text=Hi%2C%20I%27d%20like%20the%2040-minute%20diagnostic";
+const WA_BASE = {
+  ru: "Здравствуйте, хочу диагностику",
+  en: "Hi, I'd like the 40-minute diagnostic"
+};
+
+const CARD_SOURCE_META = {
+  WhatsApp: { icon: "\u{1F4AC}", color: "var(--accent)" },
+  Instagram: { icon: "\u25A1", color: "var(--accent)" },
+  Website: { icon: "\u25CE", color: "var(--accent)" },
+  Calls: { icon: "\u260E", color: "var(--accent)" }
+};
+
+const CARD_ENTRIES = [
+  { name: "Sarah M.", source: "WhatsApp", request: "kitchen 4.2m, oak", budget: "38 000 AED", time: "23:47" },
+  { name: "Ahmed R.", source: "Instagram", request: "full flat renovation", budget: "120 000 AED", time: "02:11" },
+  { name: "Дмитрий К.", source: "Website", request: "wardrobe + hallway", budget: "21 500 AED", time: "21:38" },
+  { name: "Layla H.", source: "Calls", request: "bathroom, 2 units", budget: "46 000 AED", time: "00:26" },
+  { name: "Ivan P.", source: "WhatsApp", request: "office fit-out 180 sqm", budget: "210 000 AED", time: "22:54" },
+  { name: "Mona S.", source: "Instagram", request: "kids room furniture", budget: "17 800 AED", time: "01:09" }
+];
+
+const ICONS = {
+  Inbox: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>',
+  MessagesSquare: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v9l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg>',
+  FileText: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line></svg>',
+  ListChecks: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 7 2 2 3-3"></path><path d="m3 15 2 2 3-3"></path><line x1="11" y1="7" x2="21" y2="7"></line><line x1="11" y1="15" x2="21" y2="15"></line></svg>',
+  BarChart3: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>',
+  GraduationCap: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>'
+};
 
 const COPY = {
   ru: {
-    whatsapp: WA_RU,
-    nav: { link1: "Проблема", link2: "Ниши", link3: "Как это проходит", ctaShort: "Написать в WhatsApp" },
-    hero: {
-      eyebrow: "АВТОМАТИЗАЦИЯ ПРОДАЖ · ДУБАЙ И РОССИЯ",
-      titlePre: "Показываю, где ваш бизнес ",
-      titleHighlight: "теряет заявки и деньги",
-      subtitle: "40 минут по видеосвязи. Разбираем, как сейчас приходят заявки, в каком месте они пропадают и во сколько это обходится за месяц. Уходите с картой проблем на руках.",
-      ctaLabel: "Пройти 40-минутную диагностику",
-      note: "БЕСПЛАТНО · ОТВЕЧАЮ В WHATSAPP ЛИЧНО, ОБЫЧНО В ТЕЧЕНИЕ ЧАСА",
-      formTag: "БЛАНК ДИАГНОСТИКИ / ОБРАЗЕЦ",
-      formRows: [
-        { label: "ЗАЯВКИ ПРИХОДЯТ В", value: "WhatsApp, Instagram, звонки, сайт" },
-        { label: "КТО ОТВЕЧАЕТ ПОСЛЕ 19:00", value: "никто" },
-        { label: "КП ГОТОВИТСЯ", value: "2 дня" },
-        { label: "ПРИБЫЛЬ ПО ЗАКАЗУ ВИДНО", value: "в конце проекта" }
-      ],
-      formHighlightLabel: "ПОТЕРЯ ЗАЯВОК В МЕСЯЦ",
-      formHighlightValue: "до 40%"
-    },
-    familiar: {
-      eyebrow: "ЗНАКОМО / 01",
-      title: "Шесть мест, где обычно всё и рассыпается",
-      items: [
-        { n: "01", text: "Заявка пришла в пять мест сразу. Ответили в одно." },
-        { n: "02", text: "КП готовится два дня. Клиент за это время ушёл к другим." },
-        { n: "03", text: "Менеджер уволился и забрал переписку в личном телефоне." },
-        { n: "04", text: "Три объекта в работе. Деньги перетекают между ними, прибыль видна только в конце." },
-        { n: "05", text: "Клиент был два года назад. Никто не вспомнил и не позвонил." },
-        { n: "06", text: "Собственник согласовывает каждую мелочь, иначе всё встаёт." }
-      ]
-    },
-    why: {
-      eyebrow: "ПРИЧИНА / 02",
-      textPre: "Собственник вырос из мастера. Он умеет делать кухни, ремонты, продавать квартиры. Разбираться в софте ему некогда. А интегратор приходит со словами «давайте обсудим ваши бизнес-процессы» и ",
-      textHighlight: "пропадает на два месяца.",
-      points: [
-        { label: "СНАЧАЛА ДИАГНОЗ", text: "Сорок минут разговора и понятная карта: где утекают заявки и сколько это стоит в месяц." },
-        { label: "СРОК", text: "От двух до четырёх недель до рабочей системы. Не полгода согласований." },
-        { label: "ПОСЛЕ ЗАПУСКА", text: "Обучаем команду, записываем видео-инструкции и остаёмся на поддержке." }
-      ]
-    },
-    niches: {
-      eyebrow: "НИШИ / 03",
-      title: "С кем работаем чаще всего",
-      breaksLabel: "ЧТО ЛОМАЕТСЯ",
-      setsLabel: "ЧТО СТАВИМ",
-      items: [
-        { title: "Мебель на заказ", breaks: "Заявка приходит в пять мест, замерщик забывает, КП идёт три дня, сроки производства срываются, скидки раздаются вслепую.", sets: "Воронку от заявки до монтажа, авто-КП по калькулятору, задачи цеху и монтажникам, напоминания клиенту, маржу по каждому заказу." },
-        { title: "Автотюнинг и обшивка салонов", breaks: "Записи в блокноте и личном WhatsApp, клиент приезжает раз в два года, повторных продаж нет.", sets: "Базу с историей авто, напоминание через N месяцев, запись на слот, фото до и после в карточке, учёт материала." },
-        { title: "Ремонт и отделка", breaks: "Цены на глаз, сметы в голове, три объекта параллельно, прибыль неизвестна до конца.", sets: "Смету в системе, воронку по этапам, фотоотчёт заказчику, закупки по объекту, прибыль отдельно по каждому объекту.", note: "ЛИЧНАЯ ЭКСПЕРТИЗА: 2.5 ГОДА В ОТРАСЛИ РУКАМИ" },
-        { title: "Клиники и салоны", breaks: "Запись через директ и WhatsApp вручную, неявки до 30%, повторные визиты не отслеживаются, администратор перегружен.", sets: "Онлайн-запись, авто-подтверждение, напоминание за сутки, историю визитов, возврат клиента через N месяцев, загрузку по специалистам." },
-        { title: "Недвижимость", breaks: "Лид живёт минуты, забирает его тот, кто ответил первым, брокер физически не отвечает круглосуточно.", sets: "Ответ за 10 секунд, квалификацию по бюджету и району, готовую карточку брокеру, напоминание про follow-up." }
-      ]
-    },
-    process: {
-      eyebrow: "ПОРЯДОК / 04",
-      steps: [
-        { num: "01", title: "Пишете в WhatsApp", text: "Отвечаете на три вопроса: сфера, сколько человек в команде, где сейчас лежат заявки." },
-        { num: "02", title: "Созвон 40 минут", text: "Смотрим ваш реальный путь заявки от первого сообщения до денег." },
-        { num: "03", title: "Карта проблем", text: "Показываю места утечки и во сколько каждое обходится за месяц." },
-        { num: "04", title: "Решаете сами", text: "Забираете карту и делаете с ней что хотите. Работать дальше вместе или нет, ваш выбор." }
-      ],
-      note: "ДИАГНОСТИКА БЕСПЛАТНАЯ. НИЧЕГО НЕ ПРОДАЮ НА ЭТОМ СОЗВОНЕ."
-    },
-    after: {
-      eyebrow: "РАБОТА / 05",
-      item1: "Все заявки в одном окне, с автором и источником",
-      item2: "WhatsApp, Instagram, сайт и телефония в одном месте",
-      item3: "КП, счёт и договор за десять секунд по кнопке",
-      item4: "Задачи и сроки по каждому проекту, без напоминаний руками",
-      item5: "Дашборд прибыли: видно с телефона из любой точки",
-      item6: "Обучение команды, видео-инструкции и поддержка после запуска",
-      note: "СОБИРАЕМ НА БИТРИКС24 И СВЯЗКЕ СЕРВИСОВ. ИНСТРУМЕНТ ПОДБИРАЕМ ПОД ЗАДАЧУ, А НЕ НАОБОРОТ."
-    },
-    final: {
-      title: "Сорок минут, чтобы увидеть свои цифры",
-      subtitle: "Бесплатно и без обязательств. Дальше решаете сами.",
-      note: "WHATSAPP +971 50 920 7604"
-    },
-    footer: { city: "ДУБАЙ, ОАЭ" }
+    navLinks: [
+      { text: "Проблема", href: "#pain" },
+      { text: "Ниши", href: "#industries" },
+      { text: "Диагностика", href: "#steps" }
+    ],
+    navCta: "Написать в WhatsApp",
+    heading: "Ваши заявки перестанут теряться за две недели",
+    paragraph: "Собираю WhatsApp, Instagram, сайт и звонки в одну систему, настраиваю напоминания менеджерам и показываю прибыль по каждому заказу. Начинаем с бесплатного разбора на 40 минут.",
+    heroCta: "Пройти 40-минутную диагностику",
+    line1: "Бесплатно. Отвечаю в WhatsApp лично.",
+    line2: "В переписке пришлю готовую таблицу для учёта заявок и расчёта упущенной выгоды.",
+    painTitle: "Шесть мест, где всё обычно и рассыпается",
+    painItems: [
+      { n: "01", text: "Заявка пришла в пять мест сразу. Ответили в одно." },
+      { n: "02", text: "КП готовится два дня. Клиент за это время ушёл к другим." },
+      { n: "03", text: "Менеджер уволился и забрал переписку в личном телефоне." },
+      { n: "04", text: "Три объекта в работе. Деньги перетекают между ними, прибыль видна только в конце." },
+      { n: "05", text: "Клиент был два года назад. Никто не вспомнил и не позвонил." },
+      { n: "06", text: "Собственник согласовывает каждую мелочь, иначе всё встаёт." }
+    ],
+    painReasonPre: "Причина всегда одна. У собственника нет времени в этом разбираться, а интегратор приходит со словами «давайте обсудим ваши бизнес-процессы» и ",
+    painReasonHighlight: "пропадает на два месяца.",
+    industriesTitle: "С кем работаем",
+    breaksLabel: "ЧТО ЛОМАЕТСЯ",
+    setsLabel: "ЧТО СТАВИМ",
+    industriesData: [
+      { title: "Мебель на заказ", breaks: "Заявка приходит в пять мест, замерщик забывает, КП идёт три дня, сроки производства срываются, скидки раздаются вслепую.", sets: "Воронку от заявки до монтажа, авто-КП по калькулятору, задачи цеху и монтажникам, напоминания клиенту, маржу по каждому заказу." },
+      { title: "Ремонт и отделка", breaks: "Цены на глаз, сметы в голове, три объекта параллельно, прибыль неизвестна до самого конца.", sets: "Смету в системе, воронку по этапам, фотоотчёт заказчику, закупки по объекту, прибыль отдельно по каждому объекту." },
+      { title: "Клиники и салоны", breaks: "Запись через директ и WhatsApp вручную, неявки до 30%, повторные визиты не отслеживаются, администратор перегружен.", sets: "Онлайн-запись, авто-подтверждение, напоминание за сутки, историю визитов, возврат клиента через N месяцев, загрузку по специалистам." },
+      { title: "Автотюнинг и обшивка салонов", breaks: "Записи в блокноте и личном WhatsApp, клиент приезжает раз в два года, повторных продаж нет.", sets: "Базу с историей авто, напоминание через N месяцев, запись на слот, фото до и после в карточке, учёт материала." },
+      { title: "Недвижимость", breaks: "Лид живёт минуты, забирает его тот, кто ответил первым. Брокер физически не отвечает круглосуточно.", sets: "Ответ за 10 секунд, квалификацию по бюджету и району, готовую карточку брокеру, напоминание про follow-up." }
+    ],
+    stepsTitle: "Как проходит диагностика",
+    steps: [
+      { num: "01", title: "Пишете в WhatsApp", text: "Отвечаете на три вопроса: сфера, сколько человек в команде, где сейчас лежат заявки." },
+      { num: "02", title: "Созвон 40 минут", text: "Смотрим ваш реальный путь заявки от первого сообщения до денег на счету." },
+      { num: "03", title: "Считаем упущенную выгоду", text: "Показываю, в каких местах уходят заявки и во сколько это обходится за месяц." },
+      { num: "04", title: "Решаете сами", text: "Забираете расчёт и таблицу для учёта. Работать дальше вместе или нет, ваш выбор." }
+    ],
+    stepsNote: "ДИАГНОСТИКА БЕСПЛАТНАЯ. НИЧЕГО НЕ ПРОДАЮ НА ЭТОМ СОЗВОНЕ.",
+    buildTitle: "Что появляется после внедрения",
+    buildItems: [
+      { icon: "Inbox", text: "Все заявки в одном окне, с источником и ответственным" },
+      { icon: "MessagesSquare", text: "WhatsApp, Instagram, сайт и телефония в одном месте" },
+      { icon: "FileText", text: "КП, счёт и договор за десять секунд по кнопке" },
+      { icon: "ListChecks", text: "Задачи и сроки по каждому проекту, без напоминаний руками" },
+      { icon: "BarChart3", text: "Дашборд прибыли: видно с телефона из любой точки" },
+      { icon: "GraduationCap", text: "Обучение команды, видео-инструкции и поддержка после запуска" }
+    ],
+    buildNote: "СОБИРАЕМ НА БИТРИКС24 И СВЯЗКЕ СЕРВИСОВ. ИНСТРУМЕНТ ПОДБИРАЕМ ПОД ЗАДАЧУ.",
+    finalTitle: "Сорок минут, чтобы увидеть свои цифры",
+    finalSubtitle: "Бесплатно и без обязательств. Плюс таблица для учёта заявок и расчёта упущенной выгоды, которую можно начать вести в тот же день."
   },
   en: {
-    whatsapp: WA_EN,
-    nav: { link1: "Problem", link2: "Niches", link3: "How it works", ctaShort: "Message on WhatsApp" },
-    hero: {
-      eyebrow: "SALES AUTOMATION · DUBAI & RUSSIA",
-      titlePre: "I show you where your business ",
-      titleHighlight: "loses leads and money",
-      subtitle: "A 40-minute call. We map how leads reach you today, where they disappear and what that costs per month. You leave with the map in hand.",
-      ctaLabel: "Book the 40-minute diagnostic",
-      note: "FREE · I ANSWER ON WHATSAPP MYSELF, USUALLY WITHIN THE HOUR",
-      formTag: "DIAGNOSTIC FORM / SAMPLE",
-      formRows: [
-        { label: "LEADS COME IN THROUGH", value: "WhatsApp, Instagram, calls, website" },
-        { label: "WHO ANSWERS AFTER 7PM", value: "nobody" },
-        { label: "QUOTE TAKES", value: "2 days" },
-        { label: "PROFIT PER JOB IS VISIBLE", value: "at the end of the project" }
-      ],
-      formHighlightLabel: "LEADS LOST PER MONTH",
-      formHighlightValue: "up to 40%"
-    },
-    familiar: {
-      eyebrow: "FAMILIAR / 01",
-      title: "Six places where things usually fall apart",
-      items: [
-        { n: "01", text: "A lead came in through five channels at once. You answered one." },
-        { n: "02", text: "A quote takes two days. The client left for someone else in that time." },
-        { n: "03", text: "A manager quit and took the chat history on their personal phone." },
-        { n: "04", text: "Three jobs running at once. Money moves between them, profit is only visible at the end." },
-        { n: "05", text: "A client was here two years ago. Nobody remembered to call." },
-        { n: "06", text: "The owner signs off on every small thing, otherwise nothing moves." }
-      ]
-    },
-    why: {
-      eyebrow: "WHY IT IS STILL BROKEN / 02",
-      textPre: "The owner grew up as a craftsman. He can build kitchens, do renovations, sell apartments. Software is not something he has time to learn. An integrator arrives saying let's discuss your business processes and ",
-      textHighlight: "disappears for two months.",
-      points: [
-        { label: "DIAGNOSIS FIRST", text: "Forty minutes of conversation and a clear map: where leads leak and what it costs per month." },
-        { label: "TIMELINE", text: "Two to four weeks to a working system. Not six months of approvals." },
-        { label: "AFTER LAUNCH", text: "We train the team, record video instructions and stay on support." }
-      ]
-    },
-    niches: {
-      eyebrow: "WHO WE WORK WITH / 03",
-      title: "Who we work with most",
-      breaksLabel: "WHAT BREAKS",
-      setsLabel: "WHAT WE BUILD",
-      items: [
-        { title: "Custom furniture", breaks: "Leads arrive through five channels, the measurer forgets, quotes take three days, production deadlines slip, discounts get handed out blindly.", sets: "A funnel from lead to installation, auto-quotes from a calculator, tasks for the workshop and installers, client reminders, margin per order." },
-        { title: "Auto tuning and upholstery", breaks: "Bookings in a notebook and a personal WhatsApp, clients return once every two years, no repeat sales.", sets: "A database with vehicle history, reminders after N months, slot booking, before and after photos on each record, material tracking." },
-        { title: "Renovation and fit out", breaks: "Prices estimated by eye, quotes kept in someone's head, three sites running in parallel, profit unknown until the end.", sets: "Quotes inside the system, a stage by stage funnel, photo reports for the client, purchasing per site, profit tracked separately per site.", note: "HANDS ON EXPERTISE: 2.5 YEARS IN THE INDUSTRY" },
-        { title: "Clinics and salons", breaks: "Booking through DMs and WhatsApp by hand, no shows up to 30%, repeat visits untracked, the front desk overloaded.", sets: "Online booking, auto confirmation, a reminder a day ahead, visit history, client win back after N months, load per specialist." },
-        { title: "Real estate", breaks: "A lead lives for minutes and goes to whoever answers first, a broker cannot physically answer around the clock.", sets: "A response within 10 seconds, qualification by budget and area, a ready brief for the broker, a follow up reminder." }
-      ]
-    },
-    process: {
-      eyebrow: "HOW IT GOES / 04",
-      steps: [
-        { num: "01", title: "You message on WhatsApp", text: "You answer three questions: your field, team size, where leads currently land." },
-        { num: "02", title: "A 40-minute call", text: "We walk through your real lead path from the first message to money." },
-        { num: "03", title: "A problem map", text: "I show where leads leak and what each leak costs per month." },
-        { num: "04", title: "You decide", text: "You take the map and do with it what you want. Working together further or not is your call." }
-      ],
-      note: "THE DIAGNOSTIC IS FREE. NOTHING IS SOLD ON THIS CALL."
-    },
-    after: {
-      eyebrow: "WHAT WE BUILD / 05",
-      item1: "All leads in one window, with author and source",
-      item2: "WhatsApp, Instagram, website and calls in one place",
-      item3: "A quote, invoice and contract in ten seconds at a click",
-      item4: "Tasks and deadlines per project, no manual reminders",
-      item5: "A profit dashboard visible from a phone anywhere",
-      item6: "Team training, video instructions and support after launch",
-      note: "WE BUILD ON BITRIX24 AND CONNECTED SERVICES. THE TOOL IS CHOSEN FOR THE JOB, NOT THE OTHER WAY AROUND."
-    },
-    final: {
-      title: "Forty minutes to see your own numbers",
-      subtitle: "Free and with no obligations. You decide what happens next.",
-      note: "WHATSAPP +971 50 920 7604"
-    },
-    footer: { city: "DUBAI, UAE" }
+    navLinks: [
+      { text: "Problem", href: "#pain" },
+      { text: "Industries", href: "#industries" },
+      { text: "Diagnostic", href: "#steps" }
+    ],
+    navCta: "Message on WhatsApp",
+    heading: "Your leads stop falling through the cracks in two weeks",
+    paragraph: "I bring WhatsApp, Instagram, your website and calls into one system, set up reminders for your team and show the profit on every order. We start with a free 40-minute review.",
+    heroCta: "Book the 40-minute diagnostic",
+    line1: "Free. I answer on WhatsApp myself, usually within the hour.",
+    line2: "In the chat I will send you a ready-made sheet for tracking leads and calculating lost revenue.",
+    painTitle: "Six places where it usually falls apart",
+    painItems: [
+      { n: "01", text: "A lead came in through five channels at once. You answered one." },
+      { n: "02", text: "A quote takes two days. The client left for someone else in that time." },
+      { n: "03", text: "A manager quit and took the chat history on their personal phone." },
+      { n: "04", text: "Three jobs running at once. Money moves between them, profit is only visible at the end." },
+      { n: "05", text: "A client was here two years ago. Nobody remembered to call." },
+      { n: "06", text: "The owner signs off on every small thing, otherwise nothing moves." }
+    ],
+    painReasonPre: "The reason is always the same. The owner has no time to sort it out, and the integrator shows up saying \"let's discuss your business processes\" and ",
+    painReasonHighlight: "disappears for two months.",
+    industriesTitle: "Who we work with",
+    breaksLabel: "WHAT BREAKS",
+    setsLabel: "WHAT WE BUILD",
+    industriesData: [
+      { title: "Custom furniture", breaks: "Leads arrive through five channels, the measurer forgets, quotes take three days, production deadlines slip, discounts get handed out blindly.", sets: "A funnel from lead to installation, auto-quotes from a calculator, tasks for the workshop and installers, client reminders, margin per order." },
+      { title: "Renovation", breaks: "Prices estimated by eye, quotes kept in someone's head, three sites running in parallel, profit unknown until the very end.", sets: "Quotes inside the system, a stage by stage funnel, photo reports for the client, purchasing per site, profit tracked separately per site." },
+      { title: "Clinics and salons", breaks: "Booking through DMs and WhatsApp by hand, no shows up to 30%, repeat visits untracked, the front desk overloaded.", sets: "Online booking, auto confirmation, a reminder a day ahead, visit history, client win back after N months, load per specialist." },
+      { title: "Car customisation", breaks: "Bookings in a notebook and a personal WhatsApp, clients return once every two years, no repeat sales.", sets: "A database with vehicle history, reminders after N months, slot booking, before and after photos on each record, material tracking." },
+      { title: "Real estate", breaks: "A lead lives for minutes and goes to whoever answers first. A broker cannot physically answer around the clock.", sets: "A response within 10 seconds, qualification by budget and area, a ready brief for the broker, a follow up reminder." }
+    ],
+    stepsTitle: "How the diagnostic works",
+    steps: [
+      { num: "01", title: "You message on WhatsApp", text: "You answer three questions: your field, team size, where leads currently land." },
+      { num: "02", title: "A 40-minute call", text: "We walk through your real lead path from the first message to money in the bank." },
+      { num: "03", title: "We calculate lost revenue", text: "I show where leads leak and what each leak costs per month." },
+      { num: "04", title: "You decide", text: "You take the calculation and the tracking sheet. Working together further or not is your call." }
+    ],
+    stepsNote: "THE DIAGNOSTIC IS FREE. I DO NOT SELL ANYTHING ON THAT CALL.",
+    buildTitle: "What you get after the build",
+    buildItems: [
+      { icon: "Inbox", text: "All leads in one window, with source and owner" },
+      { icon: "MessagesSquare", text: "WhatsApp, Instagram, website and calls in one place" },
+      { icon: "FileText", text: "A quote, invoice and contract in ten seconds at a click" },
+      { icon: "ListChecks", text: "Tasks and deadlines per project, no manual reminders" },
+      { icon: "BarChart3", text: "A profit dashboard visible from a phone anywhere" },
+      { icon: "GraduationCap", text: "Team training, video instructions and support after launch" }
+    ],
+    buildNote: "BUILT ON BITRIX24 AND A STACK OF SERVICES. THE TOOL IS PICKED FOR THE JOB.",
+    finalTitle: "Forty minutes to see your own numbers",
+    finalSubtitle: "Free, no strings. Plus a ready sheet for tracking leads and calculating lost revenue that you can start using the same day."
   }
 };
 
 class Component extends DCLogic {
-  state = { lang: 'ru', menuOpen: false, stickyVisible: false, reveal: {} };
+  state = {
+    lang: 'ru', menuOpen: false, menuOpenCount: 0, mounted: false, reducedMotion: false,
+    stickyVisible: false, activeIndustry: 0, activeDot: 0, reveal: {}, utmSuffix: '',
+    visibleCards: [], capturedCount: 0, chipFlashSource: null, cardSeq: 0
+  };
   sectionRefs = {};
 
   componentDidMount() {
     document.documentElement.lang = this.state.lang;
+    const params = new URLSearchParams(window.location.search);
+    const src = params.get('utm_source'); const camp = params.get('utm_campaign');
+    if (src || camp) this.setState({ utmSuffix: ` [${src || ''}-${camp || ''}]` });
+
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const reduced = mq.matches;
+    this.setState({ reducedMotion: reduced, mounted: true });
+
+    if (reduced) {
+      const initial = CARD_ENTRIES.slice(0, 4).map((c, i) => this.makeCard(c, i, 1));
+      this.setState({ visibleCards: initial, capturedCount: 4 });
+    } else {
+      this._cardTimer = setInterval(() => this.spawnCard(), 1600);
+    }
+
     this._onScroll = () => {
       const v = window.scrollY > window.innerHeight * 0.7;
       if (v !== this.state.stickyVisible) this.setState({ stickyVisible: v });
     };
     window.addEventListener('scroll', this._onScroll, { passive: true });
+
     this._observer = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) {
@@ -463,14 +447,35 @@ class Component extends DCLogic {
   }
 
   componentWillUnmount() {
+    if (this._cardTimer) clearInterval(this._cardTimer);
+    if (this._chipTimer) clearTimeout(this._chipTimer);
     window.removeEventListener('scroll', this._onScroll);
     if (this._observer) this._observer.disconnect();
+    if (this._carouselEl) this._carouselEl.removeEventListener('scroll', this._onCarouselScroll);
   }
 
-  setLang(lang) {
-    this.setState({ lang });
-    document.documentElement.lang = lang;
+  makeCard(entry, id, op) {
+    return { id, name: entry.name, request: entry.request, budget: entry.budget, time: entry.time, source: entry.source, icon: CARD_SOURCE_META[entry.source].icon, op, anim: 'none' };
   }
+
+  spawnCard() {
+    const seq = this.state.cardSeq;
+    const entry = CARD_ENTRIES[seq % CARD_ENTRIES.length];
+    const newCard = this.makeCard(entry, seq, 1);
+    newCard.anim = 'cardIn 0.45s cubic-bezier(.22,1,.36,1) both';
+    const ops = [1, 0.75, 0.5, 0.28];
+    const rest = this.state.visibleCards.slice(0, 3).map((c, i) => ({ ...c, op: ops[i + 1], anim: 'none' }));
+    this.setState((s) => ({
+      visibleCards: [newCard, ...rest],
+      capturedCount: s.capturedCount + 1,
+      cardSeq: s.cardSeq + 1,
+      chipFlashSource: entry.source
+    }));
+    if (this._chipTimer) clearTimeout(this._chipTimer);
+    this._chipTimer = setTimeout(() => this.setState({ chipFlashSource: null }), 700);
+  }
+
+  setLang(lang) { this.setState({ lang }); document.documentElement.lang = lang; }
 
   makeRef(key) {
     return (el) => {
@@ -479,43 +484,88 @@ class Component extends DCLogic {
     };
   }
 
+  fadeUp(delay, y) {
+    const { mounted, reducedMotion } = this.state;
+    const shown = reducedMotion || mounted;
+    const d = reducedMotion ? 0 : delay;
+    return { o: shown ? 1 : 0, y: shown ? 0 : y, t: reducedMotion ? 'none' : `opacity 0.7s cubic-bezier(.25,.1,.25,1) ${d}s, transform 0.7s cubic-bezier(.25,.1,.25,1) ${d}s` };
+  }
+
+  pushWA(location) {
+    return () => { if (window.dataLayer) window.dataLayer.push({ event: 'whatsapp_click', button_location: location, lang: this.state.lang }); };
+  }
+
   renderVals() {
     const lang = this.state.lang;
     const t = COPY[lang];
+    const utmSuffix = this.state.utmSuffix;
+    const waLink = `https://wa.me/971509207604?text=${encodeURIComponent(WA_BASE[lang] + utmSuffix)}`;
+
     const r = this.state.reveal;
-    const revStyle = (key) => ({ v: r[key] ? 1 : 0, y: r[key] ? 0 : 14 });
-    const fam = revStyle('familiar'), why = revStyle('why'), nic = revStyle('niches'), proc = revStyle('process'), aft = revStyle('after'), fin = revStyle('final');
+    const revStyle = (key) => ({ o: r[key] ? 1 : 0, y: r[key] ? 0 : 14 });
+    const rev = { pain: revStyle('pain'), industries: revStyle('industries'), steps: revStyle('steps'), build: revStyle('build'), final: revStyle('final') };
 
     const menuOpen = this.state.menuOpen;
-    const sticky = this.state.stickyVisible && !menuOpen;
+    const navLinksKeyed = t.navLinks.map((l, i) => ({ key: `${this.state.menuOpenCount}-${i}`, text: l.text, href: l.href, delay: 0.18 + i * 0.07 }));
+
+    const active = this.state.activeIndustry;
+    const industries = t.industriesData.map((ind, i) => ({
+      ...ind,
+      select: () => this.setState({ activeIndustry: i }),
+      tabBorder: i === active ? 'var(--accent)' : 'var(--line)',
+      tabBg: i === active ? 'var(--accent)' : 'transparent',
+      tabColor: i === active ? '#0C0C0C' : 'var(--text-dim)',
+      dotColor: i === this.state.activeDot ? 'var(--accent)' : 'var(--line)'
+    }));
+
+    const chipFlash = this.state.chipFlashSource;
+    const chips = ['WhatsApp', 'Instagram', 'Website', 'Calls'].map((label) => ({
+      label: label.toUpperCase(),
+      color: chipFlash === label ? 'var(--accent)' : 'var(--line)'
+    }));
+
+    const visibleCards = this.state.visibleCards.map((c) => ({
+      id: c.id, name: c.name, request: c.request, budget: c.budget, time: c.time, icon: '', op: c.op, anim: c.anim
+    }));
+
+    const buildItems = t.buildItems.map((it) => ({ text: it.text, iconHtml: { __html: ICONS[it.icon] } }));
+
+    const fuNav = this.fadeUp(0, -20);
+    const fuHeading = this.fadeUp(0.15, 40);
+    const fuPara = this.fadeUp(0.35, 20);
+    const fuCta = this.fadeUp(0.5, 20);
+    const fuLines = this.fadeUp(0.6, 16);
+    const fuPanel = this.fadeUp(0.7, 30);
 
     return {
-      t, lang,
-      isRu: lang === 'ru', isEn: lang === 'en',
-      setLangRu: () => this.setLang('ru'),
-      setLangEn: () => this.setLang('en'),
+      t: { ...t, industries, navLinksKeyed, buildItems },
+      lang, waLink,
+      opRu: lang === 'ru' ? 1 : 0.4, opEn: lang === 'en' ? 1 : 0.4,
+      setLangRu: () => this.setLang('ru'), setLangEn: () => this.setLang('en'),
       toggleLangFooter: () => this.setLang(lang === 'ru' ? 'en' : 'ru'),
       langOtherLabel: lang === 'ru' ? 'EN' : 'RU',
-      menuOpen,
-      menuHidden: !menuOpen,
-      toggleMenu: () => this.setState({ menuOpen: true }),
+      pushNavbar: this.pushWA('navbar'), pushHero: this.pushWA('hero'), pushSticky: this.pushWA('mobile_sticky'), pushFinal: this.pushWA('final_cta'),
+      menuHidden: !menuOpen, menuOpenN: menuOpen ? 1 : 0,
+      menuPointerEvents: menuOpen ? 'auto' : 'none',
+      sheetX: menuOpen ? '0%' : '100%', sheetItemX: menuOpen ? 0 : 12,
+      openMenu: () => this.setState((s) => ({ menuOpen: true, menuOpenCount: s.menuOpenCount + 1 })),
       closeMenu: () => this.setState({ menuOpen: false }),
-      menuOverlayStyle: `position:fixed; inset:0; background:rgba(43,36,83,0.3); z-index:48; opacity:${menuOpen ? 1 : 0}; pointer-events:${menuOpen ? 'auto' : 'none'}; transition:opacity 0.3s ease;`,
-      menuPanelStyle: `position:fixed; top:0; right:0; bottom:0; width:min(88vw,340px); background:#F4F1E7; z-index:49; box-shadow:-2px 0 12px rgba(43,36,83,0.15); transform:translateX(${menuOpen ? '0%' : '100%'}); transition:transform 0.4s cubic-bezier(.22,1,.36,1);`,
-      setFamiliarRef: this.makeRef('familiar'),
-      setWhyRef: this.makeRef('why'),
-      setNichesRef: this.makeRef('niches'),
-      setProcessRef: this.makeRef('process'),
-      setAfterRef: this.makeRef('after'),
-      setFinalRef: this.makeRef('final'),
-      revFamiliar: fam.v, revFamiliarY: fam.y,
-      revWhy: why.v, revWhyY: why.y,
-      revNiches: nic.v, revNichesY: nic.y,
-      revProcess: proc.v, revProcessY: proc.y,
-      revAfter: aft.v, revAfterY: aft.y,
-      revFinal: fin.v, revFinalY: fin.y,
-      stickyBarHidden: !sticky,
-      stickyBarStyle: `position:fixed; left:0; right:0; bottom:0; z-index:45; height:56px; box-shadow:0 -1px 0 rgba(43,36,83,0.08); transform:translateY(${sticky ? '0%' : '100%'}); transition:transform 0.3s ease;`
+      stickyHidden: !this.state.stickyVisible, stickyY: this.state.stickyVisible ? '0%' : '100%',
+      capturedCount: this.state.capturedCount, chips, visibleCards,
+      activeIndustry: active, activeTitle: industries[active].title, activeBreaks: industries[active].breaks, activeSets: industries[active].sets,
+      setCarouselRef: (el) => {
+        if (!el) return;
+        this._carouselEl = el;
+        this._onCarouselScroll = () => {
+          const idx = Math.round(el.scrollLeft / (el.scrollWidth / t.industriesData.length));
+          if (idx !== this.state.activeDot) this.setState({ activeDot: idx });
+        };
+        el.addEventListener('scroll', this._onCarouselScroll, { passive: true });
+      },
+      setPainRef: this.makeRef('pain'), setIndustriesRef: this.makeRef('industries'),
+      setStepsRef: this.makeRef('steps'), setBuildRef: this.makeRef('build'), setFinalRef: this.makeRef('final'),
+      rev,
+      fu: { nav: fuNav, heading: fuHeading, para: fuPara, cta: fuCta, lines: fuLines, panel: fuPanel }
     };
   }
 }

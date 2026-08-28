@@ -296,8 +296,8 @@ const COPY = {
     ],
     navCta: "Написать в WhatsApp",
     heading: "Ваши заявки перестанут теряться за две недели",
-    paragraph: "Собираю WhatsApp, Instagram, сайт и звонки в одну систему, настраиваю напоминания менеджерам и показываю прибыль по каждому заказу. Начинаем с бесплатного разбора на 40 минут.",
-    heroCta: "Пройти 40-минутную диагностику",
+    paragraph: "Собираю WhatsApp, Instagram, сайт и звонки в одну систему, настраиваю напоминания менеджерам и показываю прибыль по каждому заказу. Начинаем с бесплатного разбора на 25 минут.",
+    heroCta: "Пройти 25-минутную диагностику",
     line1: "Бесплатно. Отвечаю в WhatsApp лично.",
     line2: "В переписке пришлю готовую таблицу для учёта заявок и расчёта упущенной выгоды.",
     painTitle: "Шесть мест, где всё обычно и рассыпается",
@@ -324,7 +324,7 @@ const COPY = {
     stepsTitle: "Как проходит диагностика",
     steps: [
       { num: "01", title: "Пишете в WhatsApp", text: "Отвечаете на три вопроса: сфера, сколько человек в команде, где сейчас лежат заявки." },
-      { num: "02", title: "Созвон 40 минут", text: "Смотрим ваш реальный путь заявки от первого сообщения до денег на счету." },
+      { num: "02", title: "Созвон 25 минут", text: "Смотрим ваш реальный путь заявки от первого сообщения до денег на счету." },
       { num: "03", title: "Считаем упущенную выгоду", text: "Показываю, в каких местах уходят заявки и во сколько это обходится за месяц." },
       { num: "04", title: "Решаете сами", text: "Забираете расчёт и таблицу для учёта. Работать дальше вместе или нет, ваш выбор." }
     ],
@@ -339,7 +339,7 @@ const COPY = {
       { icon: "GraduationCap", text: "Обучение команды, видео-инструкции и поддержка после запуска" }
     ],
     buildNote: "СОБИРАЕМ НА БИТРИКС24 И СВЯЗКЕ СЕРВИСОВ. ИНСТРУМЕНТ ПОДБИРАЕМ ПОД ЗАДАЧУ.",
-    finalTitle: "Сорок минут, чтобы увидеть свои цифры",
+    finalTitle: "Двадцать пять минут, чтобы увидеть свои цифры",
     finalSubtitle: "Бесплатно и без обязательств. Плюс таблица для учёта заявок и расчёта упущенной выгоды, которую можно начать вести в тот же день."
   },
   en: {
@@ -350,8 +350,8 @@ const COPY = {
     ],
     navCta: "Message on WhatsApp",
     heading: "Your leads stop falling through the cracks in two weeks",
-    paragraph: "I bring WhatsApp, Instagram, your website and calls into one system, set up reminders for your team and show the profit on every order. We start with a free 40-minute review.",
-    heroCta: "Book the 40-minute diagnostic",
+    paragraph: "I bring WhatsApp, Instagram, your website and calls into one system, set up reminders for your team and show the profit on every order. We start with a free 25-minute review.",
+    heroCta: "Book the 25-minute diagnostic",
     line1: "Free. I answer on WhatsApp myself, usually within the hour.",
     line2: "In the chat I will send you a ready-made sheet for tracking leads and calculating lost revenue.",
     painTitle: "Six places where it usually falls apart",
@@ -378,7 +378,7 @@ const COPY = {
     stepsTitle: "How the diagnostic works",
     steps: [
       { num: "01", title: "You message on WhatsApp", text: "You answer three questions: your field, team size, where leads currently land." },
-      { num: "02", title: "A 40-minute call", text: "We walk through your real lead path from the first message to money in the bank." },
+      { num: "02", title: "A 25-minute call", text: "We walk through your real lead path from the first message to money in the bank." },
       { num: "03", title: "We calculate lost revenue", text: "I show where leads leak and what each leak costs per month." },
       { num: "04", title: "You decide", text: "You take the calculation and the tracking sheet. Working together further or not is your call." }
     ],
@@ -393,14 +393,14 @@ const COPY = {
       { icon: "GraduationCap", text: "Team training, video instructions and support after launch" }
     ],
     buildNote: "BUILT ON BITRIX24 AND A STACK OF SERVICES. THE TOOL IS PICKED FOR THE JOB.",
-    finalTitle: "Forty minutes to see your own numbers",
+    finalTitle: "Twenty five minutes to see your own numbers",
     finalSubtitle: "Free, no strings. Plus a ready sheet for tracking leads and calculating lost revenue that you can start using the same day."
   }
 };
 
 class Component extends DCLogic {
   state = {
-    lang: 'ru', menuOpen: false, menuOpenCount: 0, mounted: false, reducedMotion: false,
+    lang: 'en', menuOpen: false, menuOpenCount: 0, mounted: false, reducedMotion: false,
     stickyVisible: false, activeIndustry: 0, activeDot: 0, reveal: {}, utmSuffix: '',
     visibleCards: [], capturedCount: 0, chipFlashSource: null, cardSeq: 0
   };
